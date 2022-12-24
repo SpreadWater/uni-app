@@ -1,5 +1,7 @@
 <template>
   <view>
+    <!-- 使用自定义的搜索组件 -->
+    <my-search @click="gotoSearch"></my-search>
     <view class="scroll-view-container">
       <!-- 左侧的滚动视图区域 -->
       <scroll-view class="left-scroll-view" scroll-y :style="{height: wh + 'px'}">
@@ -16,7 +18,7 @@
           <!-- 动态渲染三级分类的列表数据 -->
           <view class="cate-lv3-list">
             <!-- 三级分类 Item 项 -->
-            <view class="cate-lv3-item" v-for="(item3, i3) in item2.children" :key="i3"  @click="gotoGoodsList(item3)">
+            <view class="cate-lv3-item" v-for="(item3, i3) in item2.children" :key="i3" @click="gotoGoodsList(item3)">
               <!-- 图片 -->
               <image :src="item3.cat_icon.replace('dev','web')"></image>
               <!-- 文本 -->
@@ -59,14 +61,20 @@
         this.active = i
         // 为二级分类列表重新赋值
         this.cateLevel2 = this.cateList[i].children
-        
+
         // 让 scrollTop 的值在 0 与 1 之间切换
-          this.scrollTop = this.scrollTop === 0 ? 1 : 0
+        this.scrollTop = this.scrollTop === 0 ? 1 : 0
       },
       // 点击三级分类项跳转到商品列表页面
       gotoGoodsList(item3) {
         uni.navigateTo({
           url: '/subpkg/goods_list/goods_list?cid=' + item3.cat_id
+        })
+      },
+      // 跳转到分包中的搜索页面
+      gotoSearch() {
+        uni.navigateTo({
+          url: '/subpkg/search/search'
         })
       },
       async getCateList() {
